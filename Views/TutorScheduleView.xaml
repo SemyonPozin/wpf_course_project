@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:coach_search.ViewModels" 
              mc:Ignorable="d" d:DesignHeight="600" 
              d:DesignWidth="1200">
+    <!--Loaded="UserControl_Loaded"-->
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

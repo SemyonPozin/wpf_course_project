@@ -21,10 +21,19 @@ namespace coach_search.Views
     /// </summary>
     public partial class TutorScheduleView : UserControl
     {
+        public TutorScheduleViewModel vm;
+        public int? id;
         public TutorScheduleView(int? id)
         {
             InitializeComponent();
-            DataContext = new TutorScheduleViewModel(id);
+            this.id = id;
+            vm = new TutorScheduleViewModel(id);
+            DataContext = vm;
         }
+
+        //private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    await vm.LoadSchedule(id);
+        //}
     }
 }

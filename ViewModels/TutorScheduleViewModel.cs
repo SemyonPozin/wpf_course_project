@@ -1,4 +1,5 @@
-﻿using coach_search.Models;
+﻿using coach_search.DB;
+using coach_search.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -69,13 +70,14 @@ namespace coach_search.ViewModels
             LoadSchedule(id);
         }
 
-        private async void LoadSchedule(int? id = null)
+        public async Task LoadSchedule(int? id = null)
         {
             List<Appointment> existingAppointments;
+            AppointmentRepository appointmentRepository = new(new DB.Context());
             if (id is not null)
-                existingAppointments = await ApplicationContext.unitofwork.Appointments.GetTutorAppointmentsAsync(id ?? 0); 
+                existingAppointments = await appointmentRepository.GetTutorAppointmentsAsync(id ?? 0); 
             else
-                existingAppointments = await ApplicationContext.unitofwork.Appointments.GetTutorAppointmentsAsync(ApplicationContext.CurrentTutorId.Value);
+                existingAppointments = await appointmentRepository.GetTutorAppointmentsAsync((int)ApplicationContext.CurrentTutorId);//.Value
 
             int index = 0;
             foreach (var time in TimeSlots)

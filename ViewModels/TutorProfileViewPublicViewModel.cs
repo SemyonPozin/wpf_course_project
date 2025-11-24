@@ -183,9 +183,9 @@ namespace coach_search.ViewModels
             var list = await unitOfWork.Reviews.GetReviewsForTutorAsync(Tutor.Id);
             foreach (var r in list)
                 Reviews.Add(r);
+
+
         }
-
-
 
     }
 }

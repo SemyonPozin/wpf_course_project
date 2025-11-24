@@ -82,9 +82,12 @@ public class LoginRegisterViewModel : INotifyPropertyChanged
         }
 
         ApplicationContext.CurrentUser = user;
+        //if (user.Role == 1)
+        //    ApplicationContext.CurrentTutorId = user.Id;
+        //else ApplicationContext.CurrentTutorId = null;
 
-        MessageBox.Show($"Добро пожаловать, {user.FullName}!",
-            "Успешный вход", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show($"Добро пожаловать, {user.FullName}!",
+                "Успешный вход", MessageBoxButton.OK, MessageBoxImage.Information);
 
         // Открытие главного окна
         var main = new MainWindow();

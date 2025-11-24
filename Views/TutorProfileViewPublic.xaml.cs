@@ -24,8 +24,10 @@ namespace coach_search.Views
     /// </summary>
     public partial class TutorProfileViewPublic : Window
     {
+        private int? Id {get; set;}
         public TutorProfileViewPublic(int id)
         {
+            Id = id;
             InitializeComponent();
             var vm = new TutorProfileViewPublicViewModel(id);
             DataContext = vm;
