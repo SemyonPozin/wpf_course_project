@@ -31,7 +31,7 @@ namespace coach_search.DB
 
         public virtual async Task<T?> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id) ?? null;
+            return await _dbSet.FindAsync(id);
         }
 
         public virtual async Task<List<T>> GetAllAsync()
@@ -70,6 +70,7 @@ namespace coach_search.DB
             if(entity.Role == 1)
             {
                 await this._context.TutorInfos.AddAsync(new TutorInfo() { Description = string.Empty, UserId = entity.Id});
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -130,7 +131,17 @@ namespace coach_search.DB
 
         public override async Task AddAsync(Appointment entity)
         {
-            MessageBox.Show(entity.Status.ToString());
+            // Убеждаемся, что Status установлен (0 = pending по умолчанию для новых бронирований)
+            if (entity.Id == 0)
+            {
+                // Явно устанавливаем Status для новых записей
+                entity.Status = 0; // pending
+            }
+            // Убеждаемся, что Comment не null
+            if (entity.Comment == null)
+            {
+                entity.Comment = string.Empty;
+            }
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
         }

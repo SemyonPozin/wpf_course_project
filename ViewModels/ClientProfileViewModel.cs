@@ -1,4 +1,4 @@
-﻿using coach_search.DB.coach_search.DB;
+﻿using coach_search.DB;
 using coach_search.Models;
 using Microsoft.Win32;
 using System;

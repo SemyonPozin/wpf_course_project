@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("coach_search")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c590bf75af5be54a3519c89b0a241d7caa33777a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe5a1ad4b1a6245fb76c5dacaeaf78630f6f8aeb")]
 [assembly: System.Reflection.AssemblyProductAttribute("coach_search")]
 [assembly: System.Reflection.AssemblyTitleAttribute("coach_search")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

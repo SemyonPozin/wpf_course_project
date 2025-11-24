@@ -1,4 +1,4 @@
-﻿using coach_search.DB.coach_search.DB;
+﻿using coach_search.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;

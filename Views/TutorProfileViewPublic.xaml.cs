@@ -36,7 +36,10 @@ namespace coach_search.Views
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var vm = (TutorProfileViewPublicViewModel)DataContext;
+            // Сначала загружаем данные пользователя
             await vm.LoadDataAsync();
+            // Затем инициализируем расписание последовательно, чтобы избежать конфликтов с DbContext
+            await vm.InitializeScheduleAsync();
         }
     }
 }

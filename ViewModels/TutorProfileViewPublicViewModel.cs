@@ -1,4 +1,4 @@
-﻿using coach_search.DB.coach_search.DB;
+﻿using coach_search.DB;
 using coach_search.Models;
 using System;
 using System.Collections.Generic;
@@ -58,7 +58,12 @@ namespace coach_search.ViewModels
             _userId = id;
             AddReviewCommand = new RelayCommand(async _ => await AddReview(), _ => !string.IsNullOrWhiteSpace(NewReviewText));
             BackCommand = new RelayCommand(_ => back());
-            Schedule = new TutorScheduleView(null);
+            var scheduleViewModel = new TutorScheduleViewModel();
+            Schedule = new Views.TutorScheduleView(id)
+            {
+                DataContext = scheduleViewModel
+            };
+            // Инициализация расписания будет выполнена после загрузки данных в Window_Loaded
         }
 
         private void back()
@@ -185,6 +190,12 @@ namespace coach_search.ViewModels
                 Reviews.Add(r);
 
 
+        }
+
+        public async Task InitializeScheduleAsync()
+        {
+            if (Schedule is Views.TutorScheduleView scheduleView && scheduleView.DataContext is TutorScheduleViewModel tsvm)
+                await tsvm.InitializeAsync(_userId);
         }
 
     }

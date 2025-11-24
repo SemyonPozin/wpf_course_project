@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using coach_search.DB;
-using coach_search.DB.coach_search.DB;
 using coach_search.Models;
 using System.Windows.Controls;
 using coach_search.Views;

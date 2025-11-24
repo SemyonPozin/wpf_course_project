@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using coach_search.DB.coach_search.DB;
+using coach_search.DB;
 using coach_search.Models;
-using System;
-using System.Threading.Tasks;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -79,14 +77,30 @@ namespace coach_search.ViewModels
         {
             User = ApplicationContext.CurrentUser;
 
-            LoadUser();
-
             EditCommand = new RelayCommand(_ => BeginEdit(), _ => !IsEditing);
             SaveCommand = new RelayCommand(async _ => await SaveAsync(), _ => IsEditing);
             CancelCommand = new RelayCommand(_ => CancelEdit(), _ => IsEditing);
             UploadPhotoCommand = new RelayCommand(_ => UploadPhoto(), _ => IsEditing);
 
-            Schedule = new TutorScheduleView(ApplicationContext.CurrentUser?.Id);
+            var scheduleViewModel = new TutorScheduleViewModel();
+            Schedule = new Views.TutorScheduleView(User?.Id)
+            {
+                DataContext = scheduleViewModel
+            };
+            
+            // Загружаем данные пользователя и инициализируем расписание последовательно
+            _ = InitializeDataAsync(scheduleViewModel);
+        }
+
+        private async Task InitializeDataAsync(TutorScheduleViewModel scheduleViewModel)
+        {
+            // Сначала загружаем данные пользователя
+            await LoadUser();
+            // Затем инициализируем расписание, чтобы избежать конфликтов с DbContext
+            if (User?.Id != null)
+            {
+                await scheduleViewModel.InitializeAsync(User.Id);
+            }
         }
 
         private async Task LoadUser()

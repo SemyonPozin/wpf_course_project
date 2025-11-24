@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using coach_search.DB.coach_search.DB;
 
 
 public class LoginRegisterViewModel : INotifyPropertyChanged

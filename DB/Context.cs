@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
@@ -85,8 +82,13 @@ namespace coach_search.DB
 
             // APPOINTMENT
             modelBuilder.Entity<Appointment>()
-                .Property(a => a.Status);
-                //.HasDefaultValue(1); // default = Accepted
+                .Property(a => a.Status)
+                .IsRequired();
+            
+            // Убеждаемся, что Comment может быть null или пустой строкой
+            modelBuilder.Entity<Appointment>()
+                .Property(a => a.Comment)
+                .IsRequired(false);
         }
     }
 }

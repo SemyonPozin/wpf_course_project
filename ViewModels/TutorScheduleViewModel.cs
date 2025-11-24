@@ -44,6 +44,20 @@ namespace coach_search.ViewModels
     public class TutorScheduleViewModel : BaseViewModel
     {
         private ObservableCollection<ScheduleSlot> _scheduleSlots;
+        private bool _isInitialized = false;
+        private int? _lastInitializedId = null;
+        private bool _isLoading = true;
+        
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
+        
         public ObservableCollection<ScheduleSlot> ScheduleSlots
         {
             get => _scheduleSlots;
@@ -64,20 +78,46 @@ namespace coach_search.ViewModels
             "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"
         };
 
-        public TutorScheduleViewModel(int? id = null)
+        public TutorScheduleViewModel()
         {
             ScheduleSlots = new ObservableCollection<ScheduleSlot>(Enumerable.Range(0, 70).Select(_ => new ScheduleSlot()));
-            LoadSchedule(id);
         }
 
-        public async Task LoadSchedule(int? id = null)
+        public async Task InitializeAsync(int? id = null)
         {
-            List<Appointment> existingAppointments;
-            AppointmentRepository appointmentRepository = new(new DB.Context());
+            // Избегаем повторной инициализации с тем же ID
+            if (_isInitialized && _lastInitializedId == id)
+                return;
+            
+            IsLoading = true;
+            try
+            {
+                await LoadSchedule(id);
+                _isInitialized = true;
+                _lastInitializedId = id;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task LoadSchedule(int? id = null)
+        {
+            int tutorId;
             if (id is not null)
-                existingAppointments = await appointmentRepository.GetTutorAppointmentsAsync(id ?? 0); 
+                tutorId = id.Value;
+            else if (ApplicationContext.CurrentTutorId is not null)
+                tutorId = ApplicationContext.CurrentTutorId.Value;
+            else if (ApplicationContext.CurrentUser?.Role == 1)
+                tutorId = ApplicationContext.CurrentUser.Id;
             else
-                existingAppointments = await appointmentRepository.GetTutorAppointmentsAsync((int)ApplicationContext.CurrentTutorId);//.Value
+                return; // Нет ID репетитора для загрузки
+            
+            // Используем отдельный контекст для избежания конфликтов при параллельных операциях
+            using var context = new DB.Context();
+            using var unitOfWork = new UnitOfWork(context);
+            var existingAppointments = await unitOfWork.Appointments.GetTutorAppointmentsAsync(tutorId);
 
             int index = 0;
             foreach (var time in TimeSlots)
@@ -128,11 +168,17 @@ namespace coach_search.ViewModels
                 StudentId = ApplicationContext.CurrentUser.Id,
                 DayOfWeek = slot.DayOfWeek,
                 Time = slot.Time,
-                Comment = comment,
-                Status = 0 // pending
+                Comment = comment ?? string.Empty, // Убеждаемся, что не null
+                Status = 0 // pending - явно устанавливаем
             };
 
-            await ApplicationContext.unitofwork.Appointments.AddAsync(appointment);
+            // Используем отдельный контекст для избежания конфликтов
+            using var context = new DB.Context();
+            using var unitOfWork = new UnitOfWork(context);
+            
+            // Явно устанавливаем Status перед добавлением
+            appointment.Status = 0;
+            await unitOfWork.Appointments.AddAsync(appointment);
 
             // Обновляем статус
             slot.IsAvailable = false;

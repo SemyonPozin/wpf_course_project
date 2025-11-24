@@ -1,4 +1,4 @@
-﻿using coach_search.DB.coach_search.DB;
+﻿using coach_search.DB;
 using coach_search.Models;
 using coach_search.Views;
 using System;

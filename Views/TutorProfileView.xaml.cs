@@ -26,5 +26,11 @@ namespace coach_search.Views
             InitializeComponent();
             DataContext = new TutorProfileViewModel();
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Данные и расписание уже инициализированы в конструкторе ViewModel последовательно
+            // Дополнительная инициализация не требуется
+        }
     }
 }
