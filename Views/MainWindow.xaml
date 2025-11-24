@@ -1,0 +1,72 @@
+﻿<Window x:Class="coach_search.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:coach_search.Views"
+        xmlns:vm="clr-namespace:coach_search.ViewModels"
+        xmlns:v="clr-namespace:coach_search.Views"
+        Title="TutorFinder"
+        WindowState="Maximized"
+        Background="#FFF7F2">
+
+    <!-- Объединённые ресурсы -->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- DataTemplate для HomePageViewModel -->
+            <DataTemplate DataType="{x:Type vm:HomePageViewModel}">
+                <v:HomePage />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:TutorProfileViewModel}">
+                <v:TutorProfileView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:ClientProfileViewModel}">
+                <v:ClientProfileView />
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel>
+
+        <!-- Верхнее меню -->
+        <Border Background="#E6C4A8" DockPanel.Dock="Top" Height="60">
+            <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,20,0">
+
+                <Button Content="Главная"
+                    Command="{Binding NavigateHomeCommand}"
+                    Style="{StaticResource MenuButton}" />
+
+                <!-- Личный кабинет для всех, кроме админа -->
+                <Button Content="Личный кабинет"
+                    Command="{Binding NavigateProfileCommand}"
+                    Visibility="{Binding ProfileButtonVisibility}"
+                    Style="{StaticResource MenuButton}" />
+
+                <!-- Админ панель для админа -->
+                <Button Content="Админ"
+                    Command="{Binding NavigateAdminCommand}"
+                    Visibility="{Binding AdminButtonVisibility}"
+                    Style="{StaticResource MenuButton}" />
+
+                <!-- Кнопка выхода всегда -->
+                <Button Content="Выход"
+                    Command="{Binding LogoutCommand}"
+                    Style="{StaticResource MenuButton}" />
+
+            </StackPanel>
+        </Border>
+
+        <!-- Область для отображения страниц -->
+        <Frame x:Name="MainFrame" Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden" />
+
+    </DockPanel>
+
+</Window>

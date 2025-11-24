@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="coach_search.Views.TutorScheduleView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:coach_search.Views" 
+             xmlns:vm="clr-namespace:coach_search.ViewModels" 
+             mc:Ignorable="d" d:DesignHeight="600" 
+             d:DesignWidth="1200">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="ScheduleButtonStyle" TargetType="Button" 
+                BasedOn="{StaticResource AccentButton}">
+                <Setter Property="Background" Value="White"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer>
+        <StackPanel Margin="0">
+            <TextBlock Text="Расписание репетитора" Style="{StaticResource TitleText}" Margin="0,0,0,20"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Заголовки -->
+                <TextBlock Text="" Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelText}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Пн" Grid.Row="0" Grid.Column="1" Style="{StaticResource LabelText}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Вт" Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelText}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Ср" Grid.Row="0" Grid.Column="3" Style="{StaticResource LabelText}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Чт" Grid.Row="0" Grid.Column="4" Style="{StaticResource LabelText}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Пт" Grid.Row="0" Grid.Column="5" Style="{StaticResource LabelText}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Сб" Grid.Row="0" Grid.Column="6" Style="{StaticResource LabelText}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Вс" Grid.Row="0" Grid.Column="7" Style="{StaticResource LabelText}" HorizontalAlignment="Center"/>
+                <!-- Строки времени -->
+                <TextBlock Text="09:00" Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelText}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Button Content="" Grid.Row="1" Grid.Column="1" Background="{Binding ScheduleSlots[0].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[0].BookCommand}"/>
+                <Button Content="" Grid.Row="1" Grid.Column="2" Background="{Binding ScheduleSlots[0].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[1].BookCommand}" />
+                <Button Content="" Grid.Row="1" Grid.Column="3" Background="{Binding ScheduleSlots[0].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[2].BookCommand}" />
+                <Button Content="" Grid.Row="1" Grid.Column="4" Background="{Binding ScheduleSlots[0].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[3].BookCommand}" />
+                <Button Content="" Grid.Row="1" Grid.Column="5" Background="{Binding ScheduleSlots[0].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[4].BookCommand}" />
+                <Button Content="" Grid.Row="1" Grid.Column="6" Background="{Binding ScheduleSlots[0].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[5].BookCommand}" />
+                <Button Content="" Grid.Row="1" Grid.Column="7" Background="{Binding ScheduleSlots[0].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[6].BookCommand}" />
+                <TextBlock Text="10:00" Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelText}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Button Content="" Grid.Row="2" Grid.Column="1" Background="{Binding ScheduleSlots[7].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[7].BookCommand}" />
+                <Button Content="" Grid.Row="2" Grid.Column="2" Background="{Binding ScheduleSlots[8].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[8].BookCommand}"/>
+                <Button Content="" Grid.Row="2" Grid.Column="3" Background="{Binding ScheduleSlots[9].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[9].BookCommand}"/>
+                <Button Content="" Grid.Row="2" Grid.Column="4" Background="{Binding ScheduleSlots[10].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[10].BookCommand}"/>
+                <Button Content="" Grid.Row="2" Grid.Column="5" Background="{Binding ScheduleSlots[11].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[11].BookCommand}"/>
+                <Button Content="" Grid.Row="2" Grid.Column="6" Background="{Binding ScheduleSlots[12].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[12].BookCommand}"/>
+                <Button Content="" Grid.Row="2" Grid.Column="7" Background="{Binding ScheduleSlots[13].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[13].BookCommand}"/>
+                <!-- 11:00 -->
+                <TextBlock Text="11:00" Grid.Row="3" Grid.Column="0" Style="{StaticResource LabelText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="" Grid.Row="3" Grid.Column="1" Background="{Binding ScheduleSlots[14].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[14].BookCommand}"/>
+                <Button Content="" Grid.Row="3" Grid.Column="2" Background="{Binding ScheduleSlots[15].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[15].BookCommand}"/>
+                <Button Content="" Grid.Row="3" Grid.Column="3" Background="{Binding ScheduleSlots[16].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[16].BookCommand}"/>
+                <Button Content="" Grid.Row="3" Grid.Column="4" Background="{Binding ScheduleSlots[17].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[17].BookCommand}"/>
+                <Button Content="" Grid.Row="3" Grid.Column="5" Background="{Binding ScheduleSlots[18].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[18].BookCommand}"/>
+                <Button Content="" Grid.Row="3" Grid.Column="6" Background="{Binding ScheduleSlots[19].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[19].BookCommand}"/>
+                <Button Content="" Grid.Row="3" Grid.Column="7" Background="{Binding ScheduleSlots[20].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[20].BookCommand}"/>
+
+                <!-- 12:00 -->
+                <TextBlock Text="12:00" Grid.Row="4" Grid.Column="0" Style="{StaticResource LabelText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="" Grid.Row="4" Grid.Column="1" Background="{Binding ScheduleSlots[21].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[21].BookCommand}"/>
+                <Button Content="" Grid.Row="4" Grid.Column="2" Background="{Binding ScheduleSlots[22].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[22].BookCommand}"/>
+                <Button Content="" Grid.Row="4" Grid.Column="3" Background="{Binding ScheduleSlots[23].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[23].BookCommand}"/>
+                <Button Content="" Grid.Row="4" Grid.Column="4" Background="{Binding ScheduleSlots[24].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[24].BookCommand}"/>
+                <Button Content="" Grid.Row="4" Grid.Column="5" Background="{Binding ScheduleSlots[25].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[25].BookCommand}"/>
+                <Button Content="" Grid.Row="4" Grid.Column="6" Background="{Binding ScheduleSlots[26].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[26].BookCommand}"/>
+                <Button Content="" Grid.Row="4" Grid.Column="7" Background="{Binding ScheduleSlots[27].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[27].BookCommand}"/>
+
+                <!-- 13:00 -->
+                <TextBlock Text="13:00" Grid.Row="5" Grid.Column="0" Style="{StaticResource LabelText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="" Grid.Row="5" Grid.Column="1" Background="{Binding ScheduleSlots[28].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[28].BookCommand}"/>
+                <Button Content="" Grid.Row="5" Grid.Column="2" Background="{Binding ScheduleSlots[29].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[29].BookCommand}"/>
+                <Button Content="" Grid.Row="5" Grid.Column="3" Background="{Binding ScheduleSlots[30].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[30].BookCommand}"/>
+                <Button Content="" Grid.Row="5" Grid.Column="4" Background="{Binding ScheduleSlots[31].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[31].BookCommand}"/>
+                <Button Content="" Grid.Row="5" Grid.Column="5" Background="{Binding ScheduleSlots[32].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[32].BookCommand}"/>
+                <Button Content="" Grid.Row="5" Grid.Column="6" Background="{Binding ScheduleSlots[33].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[33].BookCommand}"/>
+                <Button Content="" Grid.Row="5" Grid.Column="7" Background="{Binding ScheduleSlots[34].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[34].BookCommand}"/>
+
+                <!-- 14:00 -->
+                <TextBlock Text="14:00" Grid.Row="6" Grid.Column="0" Style="{StaticResource LabelText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="" Grid.Row="6" Grid.Column="1" Background="{Binding ScheduleSlots[35].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[35].BookCommand}"/>
+                <Button Content="" Grid.Row="6" Grid.Column="2" Background="{Binding ScheduleSlots[36].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[36].BookCommand}"/>
+                <Button Content="" Grid.Row="6" Grid.Column="3" Background="{Binding ScheduleSlots[37].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[37].BookCommand}"/>
+                <Button Content="" Grid.Row="6" Grid.Column="4" Background="{Binding ScheduleSlots[38].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[38].BookCommand}"/>
+                <Button Content="" Grid.Row="6" Grid.Column="5" Background="{Binding ScheduleSlots[39].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[39].BookCommand}"/>
+                <Button Content="" Grid.Row="6" Grid.Column="6" Background="{Binding ScheduleSlots[40].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[40].BookCommand}"/>
+                <Button Content="" Grid.Row="6" Grid.Column="7" Background="{Binding ScheduleSlots[41].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[41].BookCommand}"/>
+
+                <!-- 15:00 -->
+                <TextBlock Text="15:00" Grid.Row="7" Grid.Column="0" Style="{StaticResource LabelText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="" Grid.Row="7" Grid.Column="1" Background="{Binding ScheduleSlots[42].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[42].BookCommand}"/>
+                <Button Content="" Grid.Row="7" Grid.Column="2" Background="{Binding ScheduleSlots[43].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[43].BookCommand}"/>
+                <Button Content="" Grid.Row="7" Grid.Column="3" Background="{Binding ScheduleSlots[44].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[44].BookCommand}"/>
+                <Button Content="" Grid.Row="7" Grid.Column="4" Background="{Binding ScheduleSlots[45].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[45].BookCommand}"/>
+                <Button Content="" Grid.Row="7" Grid.Column="5" Background="{Binding ScheduleSlots[46].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[46].BookCommand}"/>
+                <Button Content="" Grid.Row="7" Grid.Column="6" Background="{Binding ScheduleSlots[47].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[47].BookCommand}"/>
+                <Button Content="" Grid.Row="7" Grid.Column="7" Background="{Binding ScheduleSlots[48].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[48].BookCommand}"/>
+
+                <!-- 16:00 -->
+                <TextBlock Text="16:00" Grid.Row="8" Grid.Column="0" Style="{StaticResource LabelText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="" Grid.Row="8" Grid.Column="1" Background="{Binding ScheduleSlots[49].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[49].BookCommand}"/>
+                <Button Content="" Grid.Row="8" Grid.Column="2" Background="{Binding ScheduleSlots[50].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[50].BookCommand}"/>
+                <Button Content="" Grid.Row="8" Grid.Column="3" Background="{Binding ScheduleSlots[51].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[51].BookCommand}"/>
+                <Button Content="" Grid.Row="8" Grid.Column="4" Background="{Binding ScheduleSlots[52].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[52].BookCommand}"/>
+                <Button Content="" Grid.Row="8" Grid.Column="5" Background="{Binding ScheduleSlots[53].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[53].BookCommand}"/>
+                <Button Content="" Grid.Row="8" Grid.Column="6" Background="{Binding ScheduleSlots[54].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[54].BookCommand}"/>
+                <Button Content="" Grid.Row="8" Grid.Column="7" Background="{Binding ScheduleSlots[55].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[55].BookCommand}"/>
+
+                <!-- 17:00 -->
+                <TextBlock Text="17:00" Grid.Row="9" Grid.Column="0" Style="{StaticResource LabelText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="" Grid.Row="9" Grid.Column="1" Background="{Binding ScheduleSlots[56].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[56].BookCommand}"/>
+                <Button Content="" Grid.Row="9" Grid.Column="2" Background="{Binding ScheduleSlots[57].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[57].BookCommand}"/>
+                <Button Content="" Grid.Row="9" Grid.Column="3" Background="{Binding ScheduleSlots[58].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[58].BookCommand}"/>
+                <Button Content="" Grid.Row="9" Grid.Column="4" Background="{Binding ScheduleSlots[59].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[59].BookCommand}"/>
+                <Button Content="" Grid.Row="9" Grid.Column="5" Background="{Binding ScheduleSlots[60].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[60].BookCommand}"/>
+                <Button Content="" Grid.Row="9" Grid.Column="6" Background="{Binding ScheduleSlots[61].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[61].BookCommand}"/>
+                <Button Content="" Grid.Row="9" Grid.Column="7" Background="{Binding ScheduleSlots[62].Color}" Style="{StaticResource ScheduleButtonStyle}" Command="{Binding ScheduleSlots[62].BookCommand}"/>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

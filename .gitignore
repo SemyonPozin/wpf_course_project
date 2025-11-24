@@ -1,0 +1,94 @@
+# --- ОС ---
+# Windows специфичные файлы
+Thumbs.db
+Desktop.ini
+
+# --- IDE / Тулы ---
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / ReSharper
+.idea/
+*.DotSettings.user
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+# Если используются packet-based NuGet packages — оставить только:
+# !packages/build/
+# !packages/repositories.config
+
+# --- Build / Output ---
+bin/
+obj/
+out/
+GeneratedFiles/
+TestResults/
+*.cache/
+*.log
+*.tlog
+*.pdb
+*.tmp
+*.dbmdl
+*.jfm
+*.iobj
+*.ipdb
+*.ilk
+
+# Publish output
+publish/
+app.publish/
+
+# --- .NET ---
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET (если в решении есть веб-проекты)
+wwwroot/lib/
+
+# --- WPF / XAML ---
+# Автогенерируемые файлы
+*.g.cs
+*.g.i.cs
+*.baml
+
+# --- Секреты / Конфиги ---
+# Для безопасности!
+appsettings.Development.json
+*.secret.json
+
+# --- Другие редакторы ---
+*.swp
+*.swo
+*.bak
+
+# --- Crash dumps ---
+*.dmp
+
+# --- Инструменты ---
+# JetBrains профилировщики
+*.dotCover
+*.dotMemory
+*.dotTrace
+*.dotPeek
+
+# --- Проекты с Entity Framework ---
+Migrations/
+*.db
+*.mdf
+*.ldf
+*.sqlite
+
+# --- Логи ---
+logs/
+*.log
