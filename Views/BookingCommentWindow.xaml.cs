@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
+using coach_search.ViewModels;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace coach_search.Views
 {
@@ -19,24 +9,28 @@ namespace coach_search.Views
     /// </summary>
     public partial class BookingCommentWindow : Window
     {
-        public string CommentText { get; private set; }
+        private BookingCommentViewModel _viewModel;
+        
+        public string CommentText => _viewModel?.CommentText;
 
         public BookingCommentWindow()
         {
             InitializeComponent();
-        }
-
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            CommentText = CommentBox.Text;
-            DialogResult = true;
-            Close();
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-            Close();
+            _viewModel = new BookingCommentViewModel();
+            DataContext = _viewModel;
+            
+            // Устанавливаем команды для закрытия окна
+            _viewModel.OkCommand = new RelayCommand(_ => 
+            {
+                DialogResult = true;
+                Close();
+            });
+            _viewModel.CancelCommand = new RelayCommand(_ => 
+            {
+                _viewModel.CommentText = null;
+                DialogResult = false;
+                Close();
+            });
         }
     }
 }

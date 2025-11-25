@@ -4,8 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:coach_search.Views"
+        xmlns:vm="clr-namespace:coach_search.ViewModels"
         mc:Ignorable="d"
-        Title="BookingCommentWindow" Height="450" Width="800">
+        Title="Комментарий к бронированию" Height="300" Width="500"
+        WindowStyle="None" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -13,15 +22,20 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Введите комментарий:"/>
+        <TextBlock Text="Введите комментарий:" Style="{StaticResource LabelText}"/>
 
-        <TextBox x:Name="CommentBox"
-                 Grid.Row="1"
-                 AcceptsReturn="True"/>
+        <TextBox Grid.Row="1"
+                 Text="{Binding CommentText, UpdateSourceTrigger=PropertyChanged}"
+                 AcceptsReturn="True"
+                 Style="{StaticResource InputBox}"/>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="ОК" Width="80" Margin="0 0 10 0" Click="Ok_Click"/>
-            <Button Content="Отмена" Width="80" Click="Cancel_Click"/>
+            <Button Content="ОК" Width="80" Margin="0 0 10 0" 
+                    Command="{Binding OkCommand}"
+                    Style="{StaticResource AccentButton}"/>
+            <Button Content="Отмена" Width="80" 
+                    Command="{Binding CancelCommand}"
+                    Style="{StaticResource MenuButton}"/>
         </StackPanel>
     </Grid>
 </Window>

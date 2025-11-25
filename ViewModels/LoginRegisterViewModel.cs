@@ -47,6 +47,7 @@ public class LoginRegisterViewModel : INotifyPropertyChanged
 
     // ---------- LOGIN ----------
     private async Task Login()//void
+    
     {
         if (string.IsNullOrWhiteSpace(LoginEmail) || string.IsNullOrWhiteSpace(LoginPassword))
         {

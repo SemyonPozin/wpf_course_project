@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Collections.ObjectModel;
 using coach_search.Views;
+using System.Windows.Input;
 
 namespace coach_search.ViewModels
 {
@@ -50,11 +51,31 @@ namespace coach_search.ViewModels
         private float _pricePerHour;
 
         public ObservableCollection<Review> Reviews { get; set; } = new();
+        public ObservableCollection<Appointment> PendingAppointments { get; set; } = new();
 
         public bool IsTutor => User?.Role == 1;
 
-        public Visibility ReviewsVisibility =>
-            Reviews.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        private Visibility _reviewsVisibility = Visibility.Collapsed;
+        public Visibility ReviewsVisibility
+        {
+            get => _reviewsVisibility;
+            set
+            {
+                _reviewsVisibility = value;
+                OnPropertyChanged(nameof(ReviewsVisibility));
+            }
+        }
+        
+        private Visibility _pendingAppointmentsVisibility = Visibility.Collapsed;
+        public Visibility PendingAppointmentsVisibility
+        {
+            get => _pendingAppointmentsVisibility;
+            set
+            {
+                _pendingAppointmentsVisibility = value;
+                OnPropertyChanged(nameof(PendingAppointmentsVisibility));
+            }
+        }
 
         // -----------------------
         // Commands
@@ -81,6 +102,8 @@ namespace coach_search.ViewModels
             SaveCommand = new RelayCommand(async _ => await SaveAsync(), _ => IsEditing);
             CancelCommand = new RelayCommand(_ => CancelEdit(), _ => IsEditing);
             UploadPhotoCommand = new RelayCommand(_ => UploadPhoto(), _ => IsEditing);
+            AcceptAppointmentCommand = new AsyncRelayCommand(async obj => await AcceptAppointmentAsync(obj));
+            RejectAppointmentCommand = new AsyncRelayCommand(async obj => await RejectAppointmentAsync(obj));
 
             var scheduleViewModel = new TutorScheduleViewModel();
             Schedule = new Views.TutorScheduleView(User?.Id)
@@ -124,7 +147,61 @@ namespace coach_search.ViewModels
             var rev = await unitOfWork.Reviews.GetReviewsForTutorAsync(User.Id);
             foreach (var r in rev)
                 Reviews.Add(r);
+            ReviewsVisibility = Reviews.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
 
+            // загрузка заявок со статусом pending
+            await LoadPendingAppointments();
+        }
+
+        private async Task LoadPendingAppointments()
+        {
+            PendingAppointments.Clear();
+            var appointments = await unitOfWork.Appointments.GetTutorAppointmentsAsync(User.Id);
+            var pending = appointments.Where(a => a.Status == 0).ToList();
+            foreach (var a in pending)
+                PendingAppointments.Add(a);
+            PendingAppointmentsVisibility = PendingAppointments.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public ICommand AcceptAppointmentCommand { get; }
+        public ICommand RejectAppointmentCommand { get; }
+
+        private async Task AcceptAppointmentAsync(object appointmentObj)
+        {
+            if (appointmentObj is Appointment appointment)
+            {
+                appointment.Status = 1; // accepted
+                await unitOfWork.Appointments.UpdateAsync(appointment);
+                await unitOfWork.SaveAsync();
+                
+                PendingAppointments.Remove(appointment);
+                PendingAppointmentsVisibility = PendingAppointments.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+                
+                // Обновляем расписание
+                if (Schedule is Views.TutorScheduleView scheduleView && scheduleView.DataContext is TutorScheduleViewModel tsvm)
+                {
+                    await tsvm.InitializeAsync(User.Id);
+                }
+            }
+        }
+
+        private async Task RejectAppointmentAsync(object appointmentObj)
+        {
+            if (appointmentObj is Appointment appointment)
+            {
+                appointment.Status = 2; // rejected
+                await unitOfWork.Appointments.UpdateAsync(appointment);
+                await unitOfWork.SaveAsync();
+                
+                PendingAppointments.Remove(appointment);
+                PendingAppointmentsVisibility = PendingAppointments.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+                
+                // Обновляем расписание
+                if (Schedule is Views.TutorScheduleView scheduleView && scheduleView.DataContext is TutorScheduleViewModel tsvm)
+                {
+                    await tsvm.InitializeAsync(User.Id);
+                }
+            }
         }
 
         private void BeginEdit() => IsEditing = true;

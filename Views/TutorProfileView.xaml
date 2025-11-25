@@ -89,6 +89,41 @@
             Visibility="{Binding SaveCancelButtonVisibility}" Margin="10,0"/>
                 </StackPanel>
 
+                <!-- Блок заявок на запись -->
+                <StackPanel Margin="0,20" Visibility="{Binding PendingAppointmentsVisibility}">
+                    <TextBlock Text="Заявки на запись" Style="{StaticResource TitleText}" Margin="0,0,0,10"/>
+                    
+                    <ItemsControl ItemsSource="{Binding PendingAppointments}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,5" Padding="15" BorderBrush="#E6C4A8" BorderThickness="2" CornerRadius="8" Background="#FFF7F2">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Student.FullName, StringFormat=Студент: {0}}" FontWeight="Bold" FontSize="16" Margin="0,0,0,5"/>
+                                        <TextBlock Text="{Binding Student.Email}" FontSize="14" Foreground="Gray" Margin="0,0,0,5"/>
+                                        <TextBlock>
+                                            <Run Text="День: "/>
+                                            <Run Text="{Binding DayOfWeekText}"/>
+                                            <Run Text=", Время: "/>
+                                            <Run Text="{Binding Time}"/>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding Comment}" TextWrapping="Wrap" Margin="0,5,0,10" FontStyle="Italic"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button Content="Принять" Width="100" Margin="0,0,10,0" 
+                                                    Style="{StaticResource AccentButton}"
+                                                    Command="{Binding DataContext.AcceptAppointmentCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding}"/>
+                                            <Button Content="Отклонить" Width="100"
+                                                    Style="{StaticResource MenuButton}"
+                                                    Command="{Binding DataContext.RejectAppointmentCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
                 <!-- Блок отзывов -->
                 <StackPanel Margin="0,20" Visibility="{Binding ReviewsVisibility}">
                     <TextBlock Text="Ваши отзывы" Style="{StaticResource TitleText}"/>

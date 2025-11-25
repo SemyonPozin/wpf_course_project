@@ -38,6 +38,29 @@ namespace coach_search.ViewModels
         public int NewReviewRating { get; set; } = 5;
         public ICommand AddReviewCommand { get; }
         public ICommand BackCommand { get; }
+        public ICommand ViewUserProfileCommand { get; }
+        
+        private Visibility _descriptionVisibility = Visibility.Collapsed;
+        public Visibility DescriptionVisibility
+        {
+            get => _descriptionVisibility;
+            set
+            {
+                _descriptionVisibility = value;
+                OnPropertyChanged(nameof(DescriptionVisibility));
+            }
+        }
+
+        private Visibility _reviewsVisibility = Visibility.Collapsed;
+        public Visibility ReviewsVisibility
+        {
+            get => _reviewsVisibility;
+            set
+            {
+                _reviewsVisibility = value;
+                OnPropertyChanged(nameof(ReviewsVisibility));
+            }
+        }
 
         private object _schedule;
         public object Schedule
@@ -58,6 +81,7 @@ namespace coach_search.ViewModels
             _userId = id;
             AddReviewCommand = new RelayCommand(async _ => await AddReview(), _ => !string.IsNullOrWhiteSpace(NewReviewText));
             BackCommand = new RelayCommand(_ => back());
+            ViewUserProfileCommand = new RelayCommand(obj => ViewUserProfile(obj));
             var scheduleViewModel = new TutorScheduleViewModel();
             Schedule = new Views.TutorScheduleView(id)
             {
@@ -95,6 +119,7 @@ namespace coach_search.ViewModels
 
             // Добавляем в ObservableCollection, чтобы UI обновился
             Reviews.Add(review);
+            ReviewsVisibility = Visibility.Visible;
 
             // Очистка полей
             NewReviewText = string.Empty;
@@ -137,6 +162,7 @@ namespace coach_search.ViewModels
             OnPropertyChanged(nameof(Subject));
             OnPropertyChanged(nameof(PricePerHour));
             OnPropertyChanged(nameof(Description));
+            DescriptionVisibility = string.IsNullOrWhiteSpace(Description) ? Visibility.Collapsed : Visibility.Visible;
 
             await LoadReviews();
         }
@@ -165,6 +191,7 @@ namespace coach_search.ViewModels
             OnPropertyChanged(nameof(Subject));
             OnPropertyChanged(nameof(PricePerHour));
             OnPropertyChanged(nameof(Description));
+            DescriptionVisibility = string.IsNullOrWhiteSpace(Description) ? Visibility.Collapsed : Visibility.Visible;
 
             await LoadReviewsAsync();
         }
@@ -180,6 +207,8 @@ namespace coach_search.ViewModels
 
             foreach (var r in list)
                 Reviews.Add(r);
+            
+            ReviewsVisibility = Reviews.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async Task LoadReviewsAsync()
@@ -188,14 +217,23 @@ namespace coach_search.ViewModels
             var list = await unitOfWork.Reviews.GetReviewsForTutorAsync(Tutor.Id);
             foreach (var r in list)
                 Reviews.Add(r);
-
-
+            
+            ReviewsVisibility = Reviews.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public async Task InitializeScheduleAsync()
         {
             if (Schedule is Views.TutorScheduleView scheduleView && scheduleView.DataContext is TutorScheduleViewModel tsvm)
                 await tsvm.InitializeAsync(_userId);
+        }
+
+        private void ViewUserProfile(object userObj)
+        {
+            if (userObj is User user)
+            {
+                var profileWindow = new Views.UserProfileWindow(user);
+                profileWindow.ShowDialog();
+            }
         }
 
     }

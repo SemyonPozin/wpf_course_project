@@ -152,3 +152,5 @@ C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coac
 C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\coach_search.pdb
 C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\coach_search.genruntimeconfig.cache
 C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\ref\coach_search.dll
+C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\UserProfileWindow.baml
+C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\UserProfileWindow.g.cs

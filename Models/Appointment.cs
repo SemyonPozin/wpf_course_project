@@ -18,6 +18,9 @@ namespace coach_search.Models
 
         //0 = pending 1 = accepted, 2 = rejected
         public int Status { get; set; }
+        
+        private static readonly string[] DaysOfWeek = { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
+        public string DayOfWeekText => DayOfWeek >= 0 && DayOfWeek < 7 ? DaysOfWeek[DayOfWeek] : "Неизвестно";
 
         public User Tutor { get; set; }
         public User Student { get; set; }

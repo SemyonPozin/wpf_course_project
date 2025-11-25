@@ -64,7 +64,13 @@ namespace coach_search.ViewModels
 
         private async Task LoadTutorsAsync()
         {
-            _allTutors = await _unitOfWork.Users.GetTutorsAsync();
+            var allTutors = await _unitOfWork.Users.GetTutorsAsync();
+            // Фильтруем репетиторов: только те, у которых указан предмет и цена за час
+            _allTutors = allTutors.Where(t => 
+                t.TutorInfo != null && 
+                !string.IsNullOrWhiteSpace(t.TutorInfo.Subject) && 
+                t.TutorInfo.PricePerHour > 0
+            ).ToList();
             FilteredTutors = new ObservableCollection<User>(_allTutors);
             OnPropertyChanged(nameof(FilteredTutors));
         }
@@ -90,6 +96,10 @@ namespace coach_search.ViewModels
             SelectedSubject = "Все";
             MinPrice = "0";
             MaxPrice = "100";
+            OnPropertyChanged(nameof(SearchText));
+            OnPropertyChanged(nameof(SelectedSubject));
+            OnPropertyChanged(nameof(MinPrice));
+            OnPropertyChanged(nameof(MaxPrice));
             ExecuteSearch();
         }
 

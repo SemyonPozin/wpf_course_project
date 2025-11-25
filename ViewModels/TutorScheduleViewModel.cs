@@ -1,5 +1,6 @@
 ﻿using coach_search.DB;
 using coach_search.Models;
+using coach_search.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -159,34 +160,36 @@ namespace coach_search.ViewModels
                 //показать страницу юзера
             }
 
-            // Показать MessageBox для комментария
-            string comment = Microsoft.VisualBasic.Interaction.InputBox("Введите комментарий к бронированию (необязательно):", "Комментарий", "");
-
-            var appointment = new Appointment
-            {
-                TutorId = ApplicationContext.CurrentTutorId.Value,
-                StudentId = ApplicationContext.CurrentUser.Id,
-                DayOfWeek = slot.DayOfWeek,
-                Time = slot.Time,
-                Comment = comment ?? string.Empty, // Убеждаемся, что не null
-                Status = 0 // pending - явно устанавливаем
-            };
-
-            // Используем отдельный контекст для избежания конфликтов
-            using var context = new DB.Context();
-            using var unitOfWork = new UnitOfWork(context);
+            // Показать окно для комментария
+            var commentWindow = new Views.BookingCommentWindow();
+            bool? dialogResult = commentWindow.ShowDialog();
             
-            // Явно устанавливаем Status перед добавлением
-            appointment.Status = 0;
-            await unitOfWork.Appointments.AddAsync(appointment);
+            // Если нажали OK (DialogResult == true), создаем запись
+            if (dialogResult == true)
+            {
+                var appointment = new Appointment
+                {
+                    TutorId = ApplicationContext.CurrentTutorId.Value,
+                    StudentId = ApplicationContext.CurrentUser.Id,
+                    DayOfWeek = slot.DayOfWeek,
+                    Time = slot.Time,
+                    Comment = commentWindow.CommentText ?? string.Empty,
+                    Status = 0 // pending
+                };
 
-            // Обновляем статус
-            slot.IsAvailable = false;
-            slot.IsPending = true;
-            slot.IsBooked = false;
+                using var context = new DB.Context();
+                using var unitOfWork = new UnitOfWork(context);
 
-            OnPropertyChanged(nameof(ScheduleSlots));
-            // OnPropertyChanged не нужен, так как свойства INotifyPropertyChanged
+                appointment.Status = 0;
+                await unitOfWork.Appointments.AddAsync(appointment);
+
+                // Обновляем статус слота
+                slot.IsAvailable = false;
+                slot.IsPending = true;
+                slot.IsBooked = false;
+                OnPropertyChanged(nameof(ScheduleSlots));
+            }
+            // Если Cancel (dialogResult == false) или закрыто другим способом (null) - ничего не делаем, запись не создается
         }
     }
 }
