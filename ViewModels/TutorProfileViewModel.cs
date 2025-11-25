@@ -14,7 +14,6 @@ using System.Windows.Input;
 
 namespace coach_search.ViewModels
 {
-
     public class TutorProfileViewModel : BaseViewModel
     {
         private readonly UnitOfWork unitOfWork = ApplicationContext.unitofwork;
@@ -84,6 +83,8 @@ namespace coach_search.ViewModels
         public RelayCommand SaveCommand { get; }
         public RelayCommand CancelCommand { get; }
         public RelayCommand UploadPhotoCommand { get; }
+        public ICommand AcceptAppointmentCommand { get; }
+        public ICommand RejectAppointmentCommand { get; }
 
         public bool IsEditing
         {
@@ -93,6 +94,7 @@ namespace coach_search.ViewModels
         private bool _isEditing;
 
         private TutorInfo _tutorInfoCache;
+        private TutorScheduleViewModel _scheduleViewModel;
 
         public TutorProfileViewModel()
         {
@@ -105,24 +107,28 @@ namespace coach_search.ViewModels
             AcceptAppointmentCommand = new AsyncRelayCommand(async obj => await AcceptAppointmentAsync(obj));
             RejectAppointmentCommand = new AsyncRelayCommand(async obj => await RejectAppointmentAsync(obj));
 
-            var scheduleViewModel = new TutorScheduleViewModel();
-            Schedule = new Views.TutorScheduleView(User?.Id)
+            // Создаем ViewModel для расписания
+            _scheduleViewModel = new TutorScheduleViewModel();
+            Schedule = new TutorScheduleView
             {
-                DataContext = scheduleViewModel
+                DataContext = _scheduleViewModel
             };
-            
-            // Загружаем данные пользователя и инициализируем расписание последовательно
-            _ = InitializeDataAsync(scheduleViewModel);
+
+            //// Загружаем данные асинхронно - как в TutorProfileViewPublic
+            //_ = InitializeAsync();
         }
 
-        private async Task InitializeDataAsync(TutorScheduleViewModel scheduleViewModel)
-        {
-            // Сначала загружаем данные пользователя
-            await LoadUser();
-            // Затем инициализируем расписание, чтобы избежать конфликтов с DbContext
-            if (User?.Id != null)
+        public async Task InitializeAsync()
+        {   
+            // Затем загружаем расписание - используем User.Id, как в TutorProfileViewPublic используется _userId
+            if (User != null && User.Id > 0)
             {
-                await scheduleViewModel.InitializeAsync(User.Id);
+                await _scheduleViewModel.LoadScheduleAsync(User.Id);
+            }
+            else
+            {
+                // Если User.Id недоступен, устанавливаем IsLoading в false
+                _scheduleViewModel.IsLoading = false;
             }
         }
 
@@ -163,9 +169,6 @@ namespace coach_search.ViewModels
             PendingAppointmentsVisibility = PendingAppointments.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public ICommand AcceptAppointmentCommand { get; }
-        public ICommand RejectAppointmentCommand { get; }
-
         private async Task AcceptAppointmentAsync(object appointmentObj)
         {
             if (appointmentObj is Appointment appointment)
@@ -178,9 +181,9 @@ namespace coach_search.ViewModels
                 PendingAppointmentsVisibility = PendingAppointments.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
                 
                 // Обновляем расписание
-                if (Schedule is Views.TutorScheduleView scheduleView && scheduleView.DataContext is TutorScheduleViewModel tsvm)
+                if (User?.Id != null)
                 {
-                    await tsvm.InitializeAsync(User.Id);
+                    await _scheduleViewModel.LoadScheduleAsync(User.Id);
                 }
             }
         }
@@ -197,9 +200,9 @@ namespace coach_search.ViewModels
                 PendingAppointmentsVisibility = PendingAppointments.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
                 
                 // Обновляем расписание
-                if (Schedule is Views.TutorScheduleView scheduleView && scheduleView.DataContext is TutorScheduleViewModel tsvm)
+                if (User?.Id != null)
                 {
-                    await tsvm.InitializeAsync(User.Id);
+                    await _scheduleViewModel.LoadScheduleAsync(User.Id);
                 }
             }
         }
@@ -209,7 +212,7 @@ namespace coach_search.ViewModels
         private void CancelEdit()
         {
             IsEditing = false;
-            LoadUser();
+            _ = LoadUser();
         }
 
         // -------------------------
@@ -249,7 +252,6 @@ namespace coach_search.ViewModels
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
 
             // Full name
             if (string.IsNullOrWhiteSpace(FullName) || FullName.Length < 5)
@@ -298,8 +300,6 @@ namespace coach_search.ViewModels
             IsEditing = false;
         }
 
-
-
         private object _schedule;
         public object Schedule
         {
@@ -311,5 +311,4 @@ namespace coach_search.ViewModels
             }
         }
     }
-
 }

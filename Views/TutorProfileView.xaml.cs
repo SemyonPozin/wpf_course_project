@@ -1,36 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 using coach_search.ViewModels;
 
 namespace coach_search.Views
 {
-    /// <summary>
-    /// Interaction logic for ProfileView.xaml
-    /// </summary>
     public partial class TutorProfileView : Page
     {
+        private TutorProfileViewModel vm;
         public TutorProfileView()
         {
             InitializeComponent();
-            DataContext = new TutorProfileViewModel();
+            DataContext = vm = new TutorProfileViewModel();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        public async void Page_loaded(object sender, EventArgs e)
         {
-            // Данные и расписание уже инициализированы в конструкторе ViewModel последовательно
-            // Дополнительная инициализация не требуется
+            // Загружаем данные асинхронно - как в TutorProfileViewPublic
+            await vm.InitializeAsync();
         }
     }
 }

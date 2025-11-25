@@ -63,6 +63,7 @@ namespace coach_search.ViewModels
         }
 
         private object _schedule;
+        private TutorScheduleViewModel _scheduleViewModel;
         public object Schedule
         {
             get => _schedule;
@@ -83,10 +84,11 @@ namespace coach_search.ViewModels
             BackCommand = new RelayCommand(_ => back());
             ViewUserProfileCommand = new RelayCommand(obj => ViewUserProfile(obj));
             var scheduleViewModel = new TutorScheduleViewModel();
-            Schedule = new Views.TutorScheduleView(id)
+            Schedule = new Views.TutorScheduleView
             {
                 DataContext = scheduleViewModel
             };
+            _scheduleViewModel = scheduleViewModel;
             // Инициализация расписания будет выполнена после загрузки данных в Window_Loaded
         }
 
@@ -223,8 +225,10 @@ namespace coach_search.ViewModels
 
         public async Task InitializeScheduleAsync()
         {
-            if (Schedule is Views.TutorScheduleView scheduleView && scheduleView.DataContext is TutorScheduleViewModel tsvm)
-                await tsvm.InitializeAsync(_userId);
+            if (_scheduleViewModel != null)
+            {
+                await _scheduleViewModel.LoadScheduleAsync(_userId);
+            }
         }
 
         private void ViewUserProfile(object userObj)

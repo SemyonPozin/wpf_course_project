@@ -45,9 +45,9 @@ namespace coach_search.ViewModels
     public class TutorScheduleViewModel : BaseViewModel
     {
         private ObservableCollection<ScheduleSlot> _scheduleSlots;
-        private bool _isInitialized = false;
-        private int? _lastInitializedId = null;
-        private bool _isLoading = true;
+        private bool _isLoading = false;
+        private bool _isInitializing = false;
+        private int? _currentTutorId = null;
         
         public bool IsLoading
         {
@@ -84,69 +84,68 @@ namespace coach_search.ViewModels
             ScheduleSlots = new ObservableCollection<ScheduleSlot>(Enumerable.Range(0, 70).Select(_ => new ScheduleSlot()));
         }
 
-        public async Task InitializeAsync(int? id = null)
+        public async Task LoadScheduleAsync(int? tutorId)
         {
-            // Избегаем повторной инициализации с тем же ID
-            if (_isInitialized && _lastInitializedId == id)
+            // Предотвращаем повторную инициализацию, если уже идет загрузка
+            if (_isInitializing)
+            {
                 return;
-            
+            }
+
+            _isInitializing = true;
             IsLoading = true;
+            _currentTutorId = tutorId;
+
             try
             {
-                await LoadSchedule(id);
-                _isInitialized = true;
-                _lastInitializedId = id;
+                if (!tutorId.HasValue)
+                {
+                    // Если нет ID, просто показываем пустое расписание
+                    IsLoading = false;
+                    _isInitializing = false;
+                    return;
+                }
+
+                // Используем отдельный контекст для избежания конфликтов
+                using var context = new DB.Context();
+                using var unitOfWork = new UnitOfWork(context);
+                var existingAppointments = await unitOfWork.Appointments.GetTutorAppointmentsAsync(tutorId.Value);
+
+                // Обновляем слоты
+                int index = 0;
+                foreach (var time in TimeSlots)
+                {
+                    for (int day = 0; day <= 6; day++)
+                    {
+                        var appointment = existingAppointments.FirstOrDefault(a => a.DayOfWeek == day && a.Time == time);
+
+                        bool isAvailable = appointment == null || appointment.Status == 2;
+                        bool isPending = appointment?.Status == 0;
+                        bool isBooked = appointment?.Status == 1;
+
+                        var slot = ScheduleSlots[index];
+                        slot.DayOfWeek = day;
+                        slot.Time = time;
+                        slot.IsAvailable = isAvailable;
+                        slot.IsPending = isPending;
+                        slot.IsBooked = isBooked;
+                        slot.BookCommand = new AsyncRelayCommand(async param => await BookSlot(slot));
+
+                        index++;
+                    }
+                }
+
+                OnPropertyChanged(nameof(ScheduleSlots));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Ошибка загрузки расписания: {ex.Message}");
             }
             finally
             {
                 IsLoading = false;
+                _isInitializing = false;
             }
-        }
-
-        private async Task LoadSchedule(int? id = null)
-        {
-            int tutorId;
-            if (id is not null)
-                tutorId = id.Value;
-            else if (ApplicationContext.CurrentTutorId is not null)
-                tutorId = ApplicationContext.CurrentTutorId.Value;
-            else if (ApplicationContext.CurrentUser?.Role == 1)
-                tutorId = ApplicationContext.CurrentUser.Id;
-            else
-                return; // Нет ID репетитора для загрузки
-            
-            // Используем отдельный контекст для избежания конфликтов при параллельных операциях
-            using var context = new DB.Context();
-            using var unitOfWork = new UnitOfWork(context);
-            var existingAppointments = await unitOfWork.Appointments.GetTutorAppointmentsAsync(tutorId);
-
-            int index = 0;
-            foreach (var time in TimeSlots)
-            {
-                for (int day = 0; day <= 6; day++) // 0=Monday to 6=Sunday
-                {
-                    var appointment = existingAppointments.FirstOrDefault(a => a.DayOfWeek == day && a.Time == time);
-                    //bool isAvailable = appointment == null || appointment.Status == 2; // No appointment or rejected
-                    //bool isPending = appointment != null && appointment.Status == 0;
-                    //bool isBooked = appointment != null && appointment.Status == 1;
-
-                    bool isAvailable = appointment == null || appointment.Status == 2;
-                    bool isPending = appointment?.Status == 0;
-                    bool isBooked = appointment?.Status == 1;
-
-                    var slot = ScheduleSlots[index];
-                    slot.DayOfWeek = day;
-                    slot.Time = time;
-                    slot.IsAvailable = isAvailable;
-                    slot.IsPending = isPending;
-                    slot.IsBooked = isBooked;
-                    slot.BookCommand = new AsyncRelayCommand(async param => await BookSlot(slot));
-
-                    index++;
-                }
-            }
-
-            OnPropertyChanged(nameof(ScheduleSlots));
         }
 
         private async Task BookSlot(ScheduleSlot slot)
@@ -157,7 +156,6 @@ namespace coach_search.ViewModels
             if (ApplicationContext.CurrentUser.Role != 0)
             {
                 return;
-                //показать страницу юзера
             }
 
             // Показать окно для комментария
@@ -189,7 +187,6 @@ namespace coach_search.ViewModels
                 slot.IsBooked = false;
                 OnPropertyChanged(nameof(ScheduleSlots));
             }
-            // Если Cancel (dialogResult == false) или закрыто другим способом (null) - ничего не делаем, запись не создается
         }
     }
 }
