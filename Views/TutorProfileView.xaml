@@ -89,6 +89,8 @@
             Visibility="{Binding SaveCancelButtonVisibility}" Margin="10,0"/>
                 </StackPanel>
 
+                <ContentControl Content = "{Binding Schedule}"></ContentControl>
+
                 <!-- Блок отзывов -->
                 <StackPanel Margin="0,20" Visibility="{Binding ReviewsVisibility}">
                     <TextBlock Text="Ваши отзывы" Style="{StaticResource TitleText}"/>
@@ -109,8 +111,6 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
-
-                <ContentControl Content = "{Binding Schedule}"></ContentControl>
 
                 <!-- Блок заявок на запись -->
                 <StackPanel Margin="0,20" Visibility="{Binding PendingAppointmentsVisibility}">
