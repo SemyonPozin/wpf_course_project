@@ -12,6 +12,7 @@ namespace coach_search.ViewModels
     public class ScheduleSlot : BaseViewModel
     {
         public int DayOfWeek { get; set; }
+        public int ClientId { get; set; }
         public string Time { get; set; }
         private bool _isAvailable;
         public bool IsAvailable
@@ -130,7 +131,7 @@ namespace coach_search.ViewModels
                         slot.IsPending = isPending;
                         slot.IsBooked = isBooked;
                         slot.BookCommand = new AsyncRelayCommand(async param => await BookSlot(slot));
-
+                        slot.ClientId = appointment?.StudentId ?? 0;
                         index++;
                     }
                 }
@@ -150,6 +151,18 @@ namespace coach_search.ViewModels
 
         private async Task BookSlot(ScheduleSlot slot)
         {
+            if(ApplicationContext.CurrentUser.Role == 1 && ApplicationContext.CurrentUser.Id == _currentTutorId)
+            {
+                User user = await ApplicationContext.unitofwork.Users.GetByIdAsync(slot.ClientId);
+                UserProfileWindow userWindow;
+                if(user != null)
+                {
+                    userWindow = new UserProfileWindow(user);
+                    userWindow.ShowDialog();
+                }
+                return;
+            }
+
             if (!slot.IsAvailable || ApplicationContext.CurrentUser == null || ApplicationContext.CurrentTutorId == null)
                 return;
 
@@ -157,7 +170,6 @@ namespace coach_search.ViewModels
             {
                 return;
             }
-
             // Показать окно для комментария
             var commentWindow = new Views.BookingCommentWindow();
             bool? dialogResult = commentWindow.ShowDialog();
@@ -185,6 +197,7 @@ namespace coach_search.ViewModels
                 slot.IsAvailable = false;
                 slot.IsPending = true;
                 slot.IsBooked = false;
+                slot.ClientId = ApplicationContext.CurrentUser.Id;
                 OnPropertyChanged(nameof(ScheduleSlots));
             }
         }
