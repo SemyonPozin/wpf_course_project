@@ -89,6 +89,29 @@
             Visibility="{Binding SaveCancelButtonVisibility}" Margin="10,0"/>
                 </StackPanel>
 
+                <!-- Блок отзывов -->
+                <StackPanel Margin="0,20" Visibility="{Binding ReviewsVisibility}">
+                    <TextBlock Text="Ваши отзывы" Style="{StaticResource TitleText}"/>
+
+                    <ItemsControl ItemsSource="{Binding Reviews}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,5" Padding="10" BorderThickness="1" CornerRadius="8"
+        BorderBrush="LightGray">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding ClientName}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding Rating, StringFormat=Оценка: {0}}"
+                   Foreground="DarkGoldenrod"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <ContentControl Content = "{Binding Schedule}"></ContentControl>
+
                 <!-- Блок заявок на запись -->
                 <StackPanel Margin="0,20" Visibility="{Binding PendingAppointmentsVisibility}">
                     <TextBlock Text="Заявки на запись" Style="{StaticResource TitleText}" Margin="0,0,0,10"/>
@@ -123,29 +146,6 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
-
-                <!-- Блок отзывов -->
-                <StackPanel Margin="0,20" Visibility="{Binding ReviewsVisibility}">
-                    <TextBlock Text="Ваши отзывы" Style="{StaticResource TitleText}"/>
-
-                    <ItemsControl ItemsSource="{Binding Reviews}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Margin="0,5" Padding="10" BorderThickness="1" CornerRadius="8"
-        BorderBrush="LightGray">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding ClientName}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
-                                        <TextBlock Text="{Binding Rating, StringFormat=Оценка: {0}}"
-                   Foreground="DarkGoldenrod"/>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-
-                <ContentControl Content = "{Binding Schedule}"></ContentControl>
             </StackPanel>
 
         </ScrollViewer>
