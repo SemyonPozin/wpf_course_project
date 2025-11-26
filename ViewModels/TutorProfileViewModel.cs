@@ -113,26 +113,19 @@ namespace coach_search.ViewModels
             {
                 DataContext = _scheduleViewModel
             };
-
-            //// Загружаем данные асинхронно - как в TutorProfileViewPublic
-            //_ = InitializeAsync();
         }
 
         public async Task InitializeAsync()
         {   
             // Затем загружаем расписание - используем User.Id, как в TutorProfileViewPublic используется _userId
             if (User != null && User.Id > 0)
-            {
                 await _scheduleViewModel.LoadScheduleAsync(User.Id);
-            }
             else
-            {
-                // Если User.Id недоступен, устанавливаем IsLoading в false
                 _scheduleViewModel.IsLoading = false;
-            }
+            
         }
 
-        private async Task LoadUser()
+        public async Task LoadUser()
         {
             FullName = User.FullName;
             Phone = User.Phone;

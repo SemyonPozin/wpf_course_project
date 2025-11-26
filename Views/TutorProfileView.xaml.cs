@@ -1,5 +1,6 @@
-﻿using System.Windows.Controls;
-using coach_search.ViewModels;
+﻿using coach_search.ViewModels;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace coach_search.Views
 {
@@ -16,6 +17,7 @@ namespace coach_search.Views
         {
             // Загружаем данные асинхронно - как в TutorProfileViewPublic
             await vm.InitializeAsync();
+            await vm.LoadUser();
         }
     }
 }

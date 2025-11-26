@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace coach_search.Models
 {
@@ -20,8 +22,12 @@ namespace coach_search.Models
         public int Status { get; set; }
         
         private static readonly string[] DaysOfWeek = { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
-        public string DayOfWeekText => DayOfWeek >= 0 && DayOfWeek < 7 ? DaysOfWeek[DayOfWeek] : "Неизвестно";
-
+        private string _dayofweektext;
+        [NotMapped]
+        public string DayOfWeekText {
+            get=> DayOfWeek >= 0 && DayOfWeek < 7 ? DaysOfWeek[DayOfWeek] : "Неизвестно";
+            set => _dayofweektext = value;
+        }
         public User Tutor { get; set; }
         public User Student { get; set; }
     }

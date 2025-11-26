@@ -64,7 +64,7 @@ namespace coach_search.ViewModels
         {
             User = ApplicationContext.CurrentUser;
 
-            LoadUser();
+            //LoadUser();
 
             EditCommand = new RelayCommand(_ => BeginEdit(), _ => !IsEditing);
             SaveCommand = new RelayCommand(async _ => await SaveAsync(), _ => IsEditing);
@@ -72,7 +72,7 @@ namespace coach_search.ViewModels
             UploadPhotoCommand = new RelayCommand(_ => UploadPhoto(), _ => IsEditing);
         }
 
-        private async Task LoadUser()
+        public async Task LoadUser()
         {
             FullName = User.FullName;
             Phone = User.Phone;

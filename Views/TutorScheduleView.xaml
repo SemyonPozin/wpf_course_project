@@ -27,7 +27,7 @@
     </UserControl.Resources>
     <ScrollViewer>
         <StackPanel Margin="0">
-            <TextBlock Text="Расписание репетитора" Style="{StaticResource TitleText}" Margin="0,0,0,20"/>
+            <TextBlock Text="Расписание" Style="{StaticResource TitleText}" Margin="0,0,0,20"/>
             
             <!-- Индикатор загрузки -->
             <Border Background="#F5F5F5" 

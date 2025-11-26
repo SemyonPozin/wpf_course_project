@@ -43,7 +43,6 @@ namespace coach_search.ViewModels
         public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
 
         public async void Execute(object parameter)
-        
         {
             await _execute(parameter);
         }
