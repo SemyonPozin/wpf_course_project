@@ -38,7 +38,7 @@ namespace coach_search.ViewModels
             NavigateHomeCommand = new RelayCommand(_ => Navigation.Navigate(new HomePageViewModel()));
             NavigateProfileCommand = new RelayCommand(_ => ChooseProfileWindow());
             //NavigateTutorCommand = new RelayCommand((object id) => Navigation.Navigate(new TutorProfileViewPublicViewModel((int)id)));
-            //NavigateAdminCommand = new RelayCommand(_ => Navigation.Navigate(new AdminPanelViewModel()));
+            NavigateAdminCommand = new RelayCommand(_ => Navigation.Navigate(new AdminPanelViewModel()));
             LogoutCommand = new RelayCommand(_ => Logout());
 
             // По умолчанию открываем главную

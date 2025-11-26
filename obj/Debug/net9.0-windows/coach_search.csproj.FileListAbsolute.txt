@@ -154,3 +154,9 @@ C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coac
 C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\ref\coach_search.dll
 C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\UserProfileWindow.baml
 C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\UserProfileWindow.g.cs
+C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\AdminEditTutorWindow.baml
+C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\AdminEditUserWindow.baml
+C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\AdminEditTutorWindow.g.cs
+C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\AdminEditUserWindow.g.cs
+C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\AdminPanelView.g.cs
+C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\obj\Debug\net9.0-windows\Views\AdminPanelView.baml

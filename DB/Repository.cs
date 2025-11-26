@@ -123,6 +123,15 @@ namespace coach_search.DB
         {
             return await _dbSet.Where(r => r.AuthorId == authorId).ToListAsync();   
         }
+
+        public async Task<List<Review>> GetAllReviewsWithIncludesAsync()
+        {
+            return await _dbSet
+                .Include(r => r.Author)
+                .Include(r => r.Tutor)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToListAsync();
+        }
     }
 
     public class AppointmentRepository : Repository<Appointment>

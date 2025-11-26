@@ -28,6 +28,10 @@
                 <v:ClientProfileView />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:AdminPanelViewModel}">
+                <v:AdminPanelView />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Window.Resources>
 

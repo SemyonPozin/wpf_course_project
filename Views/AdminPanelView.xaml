@@ -1,0 +1,179 @@
+<Page x:Class="coach_search.Views.AdminPanelView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:converters="clr-namespace:coach_search.Converters"
+      mc:Ignorable="d"
+      d:DesignHeight="600" d:DesignWidth="1000">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Margin="20">
+        <TabControl>
+            <!-- Вкладка пользователей -->
+            <TabItem Header="Пользователи">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Список пользователей" Style="{StaticResource TitleText}" Margin="0,0,0,10"/>
+
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding Users}"
+                              SelectedItem="{Binding SelectedUser}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              GridLinesVisibility="All"
+                              HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="150"/>
+                            <DataGridCheckBoxColumn Header="Заблокирован" Binding="{Binding IsBlocked}" Width="100"/>
+                            <DataGridTemplateColumn Header="Действия" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Редактировать" 
+                                                    Command="{Binding DataContext.EditUserCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource AccentButton}"
+                                                    Margin="5,0"
+                                                    Padding="10,5"/>
+                                            <Button Content="Заблокировать" 
+                                                    Command="{Binding DataContext.BlockUserCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource MenuButton}"
+                                                    Margin="5,0"
+                                                    Padding="10,5"
+                                                    Visibility="{Binding IsBlocked, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                                            <Button Content="Разблокировать" 
+                                                    Command="{Binding DataContext.UnblockUserCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource AccentButton}"
+                                                    Margin="5,0"
+                                                    Padding="10,5"
+                                                    Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Вкладка репетиторов -->
+            <TabItem Header="Репетиторы">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Список репетиторов" Style="{StaticResource TitleText}" Margin="0,0,0,10"/>
+
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding Tutors}"
+                              SelectedItem="{Binding SelectedTutor}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              GridLinesVisibility="All"
+                              HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="150"/>
+                            <DataGridTextColumn Header="Предмет" Binding="{Binding TutorInfo.Subject}" Width="150"/>
+                            <DataGridTextColumn Header="Цена/час" Binding="{Binding TutorInfo.PricePerHour}" Width="100"/>
+                            <DataGridCheckBoxColumn Header="Заблокирован" Binding="{Binding IsBlocked}" Width="100"/>
+                            <DataGridTemplateColumn Header="Действия" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Редактировать" 
+                                                    Command="{Binding DataContext.EditTutorCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource AccentButton}"
+                                                    Margin="5,0"
+                                                    Padding="10,5"/>
+                                            <Button Content="Заблокировать" 
+                                                    Command="{Binding DataContext.BlockTutorCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource MenuButton}"
+                                                    Margin="5,0"
+                                                    Padding="10,5"
+                                                    Visibility="{Binding IsBlocked, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                                            <Button Content="Разблокировать" 
+                                                    Command="{Binding DataContext.UnblockTutorCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource AccentButton}"
+                                                    Margin="5,0"
+                                                    Padding="10,5"
+                                                    Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Вкладка отзывов -->
+            <TabItem Header="Отзывы">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Список отзывов" Style="{StaticResource TitleText}" Margin="0,0,0,10"/>
+
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding Reviews}"
+                              SelectedItem="{Binding SelectedReview}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              GridLinesVisibility="All"
+                              HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                            <DataGridTextColumn Header="Автор" Binding="{Binding Author.FullName}" Width="150"/>
+                            <DataGridTextColumn Header="Репетитор" Binding="{Binding Tutor.FullName}" Width="150"/>
+                            <DataGridTextColumn Header="Оценка" Binding="{Binding Rating}" Width="80"/>
+                            <DataGridTextColumn Header="Текст" Binding="{Binding Text}" Width="300"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding CreatedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Width="150"/>
+                            <DataGridTemplateColumn Header="Действия" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить" 
+                                                Command="{Binding DataContext.DeleteReviewCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource MenuButton}"
+                                                Margin="5,0"
+                                                Padding="10,5"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>
+

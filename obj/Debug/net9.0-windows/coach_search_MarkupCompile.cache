@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\User\Documents\Labs\3 курс 1 сем\курсач2\coach_search\coach_search\coach_search\App.xaml
-10347851281
+13339722026
 
-32-720341512
+37-2018997862
 230-407583725
-Styles.xaml;Views\BookingCommentWindow.xaml;Views\ClientProfileView.xaml;Views\HomePage.xaml;Views\LoginRegisterWindow.xaml;Views\MainWindow.xaml;Views\TutorProfileView.xaml;Views\TutorProfileViewPublic.xaml;Views\TutorScheduleView.xaml;Views\UserProfileWindow.xaml;
+Styles.xaml;Views\AdminEditTutorWindow.xaml;Views\AdminEditUserWindow.xaml;Views\AdminPanelView.xaml;Views\BookingCommentWindow.xaml;Views\ClientProfileView.xaml;Views\HomePage.xaml;Views\LoginRegisterWindow.xaml;Views\MainWindow.xaml;Views\TutorProfileView.xaml;Views\TutorProfileViewPublic.xaml;Views\TutorScheduleView.xaml;Views\UserProfileWindow.xaml;
 
 False
 
