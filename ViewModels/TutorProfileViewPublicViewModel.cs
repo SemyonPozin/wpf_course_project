@@ -107,6 +107,12 @@ namespace coach_search.ViewModels
                 return;
             }
 
+            if(ApplicationContext.CurrentUser.Role != 0)
+            {
+                MessageBox.Show("Оставить отзыв может только клиент");
+                return;
+            }
+
             var review = new Review
             {
                 TutorId = Tutor.Id,

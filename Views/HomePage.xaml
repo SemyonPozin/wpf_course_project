@@ -56,14 +56,14 @@
                           SelectedItem="{Binding SelectedSubject}"
                           Style="{StaticResource InputCombo}" />
 
-                <TextBlock Text="Цена от" Margin="30,10,0,0" Style="{StaticResource LabelText}" />
+                <TextBlock Text="Цена от" Margin="30,10,20,0" Style="{StaticResource LabelText}" />
 
                 <TextBox Style="{StaticResource InputBox}"
                          Width="200"
                          Text="{Binding MinPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                 </TextBox>
 
-                <TextBlock Text="до" Margin="30,10,0,0" Style="{StaticResource LabelText}" />
+                <TextBlock Text="до" Margin="30,10,20,0" Style="{StaticResource LabelText}" />
 
                 <TextBox Style="{StaticResource InputBox}"
                          Width="200"

@@ -25,14 +25,14 @@ namespace coach_search.ViewModels
         public bool IsPending
         {
             get => _isPending;
-            set { _isPending = value; if (value) color = "Gray"; OnPropertyChanged(nameof(IsPending)); }
+            set { _isPending = value; if (value) color = "#FFD3D3D3"; OnPropertyChanged(nameof(IsPending)); }
         }
 
         private bool _isBooked;
         public bool IsBooked
         {
             get => _isBooked;
-            set { _isBooked = value; if(value) color = "Orange"; OnPropertyChanged(nameof(IsBooked)); }
+            set { _isBooked = value; if(value) color = "#FFB347"; OnPropertyChanged(nameof(IsBooked)); }
         }
         private string color = "White";
         public string Color

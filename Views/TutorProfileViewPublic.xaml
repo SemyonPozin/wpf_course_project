@@ -19,7 +19,7 @@
 
     <Window.Loaded>Window_Loaded</Window.Loaded>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#FFF7F2">
         <StackPanel Margin="20" Width="850">
 
             <!-- Кнопка назад -->
