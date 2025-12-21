@@ -26,5 +26,12 @@ namespace coach_search.Views
             InitializeComponent();
             DataContext = new ClientProfileViewModel();
         }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ClientProfileViewModel vm)
+                await vm.LoadUser();
+        }
+
     }
 }

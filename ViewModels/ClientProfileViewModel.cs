@@ -40,8 +40,20 @@ namespace coach_search.ViewModels
 
         public ObservableCollection<Review> Reviews { get; set; } = new();
 
-        public Visibility ReviewsVisibility =>
-            Reviews.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        //public Visibility ReviewsVisibility =>
+        //    Reviews.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+        private Visibility _reviewsVisibility = Visibility.Collapsed;
+        public Visibility ReviewsVisibility
+        {
+            get => _reviewsVisibility;
+            set
+            {
+                _reviewsVisibility = value;
+                OnPropertyChanged(nameof(ReviewsVisibility));
+            }
+        }
+
 
         // -----------------------
         // Commands
@@ -85,6 +97,10 @@ namespace coach_search.ViewModels
             foreach (var r in rev)
                 Reviews.Add(r);
 
+            ReviewsVisibility = Reviews.Count > 0
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
         }
 
         private void BeginEdit() => IsEditing = true;
@@ -92,7 +108,7 @@ namespace coach_search.ViewModels
         private void CancelEdit()
         {
             IsEditing = false;
-            LoadUser();
+            _ = LoadUser();
         }
 
         // -------------------------
