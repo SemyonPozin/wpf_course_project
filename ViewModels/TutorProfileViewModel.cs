@@ -278,6 +278,20 @@ namespace coach_search.ViewModels
                 return;
             }
 
+            if(Description.Length > 300)
+            {
+                MessageBox.Show("Длина описания не должна быть более 300 символов.",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (Subject.Length > 15)
+            {
+                MessageBox.Show("Длина названия предмета не должна быть более 15 символов.",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             // --------------------
             // Save user
             // --------------------

@@ -104,14 +104,28 @@ namespace coach_search.ViewModels
                 return;
             }
 
+            if (_tutor.TutorInfo == null)
+                _tutor.TutorInfo = new TutorInfo();
+
+            if (TutorInfo?.Description?.Length > 300)
+            {
+                MessageBox.Show("Длина описания не должна быть более 300 символов.",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (TutorInfo?.Subject?.Length > 15)
+            {
+                MessageBox.Show("Длина названия предмета не должна быть более 15 символов.",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             // Сохраняем данные обратно в модель
             _tutor.FullName = FullName;
             _tutor.Email = Email;
             _tutor.Phone = Phone;
             _tutor.IsBlocked = IsBlocked;
-
-            if (_tutor.TutorInfo == null)
-                _tutor.TutorInfo = new TutorInfo();
 
             _tutor.TutorInfo.Description = TutorInfo.Description;
             _tutor.TutorInfo.Subject = TutorInfo.Subject;
