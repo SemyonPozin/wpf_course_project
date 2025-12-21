@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="Профиль пользователя" Height="400" Width="350"
+        Title="Профиль пользователя" Height="400" Width="430"
         WindowStyle="None" ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>

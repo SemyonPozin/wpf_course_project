@@ -36,6 +36,7 @@
                               IsReadOnly="True"
                               GridLinesVisibility="All"
                               HeadersVisibility="Column">
+
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
                             <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="200"/>

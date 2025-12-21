@@ -4,9 +4,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="Редактирование репетитора" Height="600" Width="450"
+        Title="Редактирование репетитора" Height="600" Width="550"
         WindowStyle="None" ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        Margin="100 100  0 0">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -48,7 +49,7 @@
                     <Button Content="Сохранить" Width="120" Height="35" 
                             Style="{StaticResource AccentButton}" 
                             Click="SaveButton_Click" Margin="0,0,10,0"/>
-                    <Button Content="Отмена" Width="120" Height="35" 
+                    <Button Content="Отмена" Width="120" Height="55" 
                             Style="{StaticResource MenuButton}" 
                             Click="CancelButton_Click"/>
                 </StackPanel>
