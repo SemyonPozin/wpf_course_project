@@ -52,13 +52,12 @@ namespace coach_search.ViewModels
                     vm.Show();
                     var main = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
                     main.Close();
-                    //await vm.LoadData(tutorId);
-                    //_navigation.Navigate(vm); // NavigationService остаётся как есть
                 }
             });
 
 
             _ = LoadTutorsAsync();
+
         }
 
 

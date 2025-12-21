@@ -14,7 +14,6 @@ namespace coach_search.Models
         public string? Description { get; set; }
         public string? Subject { get; set; } 
         public float PricePerHour { get; set; }
-
         public User User { get; set; }
     }
 

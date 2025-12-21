@@ -40,6 +40,10 @@ namespace coach_search.Views
             await vm.LoadDataAsync();
             // Затем инициализируем расписание последовательно, чтобы избежать конфликтов с DbContext
             await vm.InitializeScheduleAsync();
+
+            await vm.LoadReviewsAsync();
+            await vm.CalculateAverageRatingAsync();
+
         }
     }
 }

@@ -26,26 +26,8 @@ namespace coach_search.Views
         private coach_search.Models.NavigationService Navigation;
         public HomePage()
         {
-            //Navigation = new();
-            //Navigation.PropertyChanged += (_, __) => OnPropertyChanged(nameof(CurrentPage));
             InitializeComponent();
             DataContext = new HomePageViewModel();//Navigation
         }
-
-        //private void ViewProfile_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (sender is Button btn && btn.Tag is int tutorId)
-        //    {
-        //        // создаём страницу напрямую с параметром
-        //        var page = new TutorProfileViewPublic(tutorId);
-
-        //        // ищем Frame на MainWindow и показываем страницу
-        //        var mainWindow = Application.Current.Windows.OfType<MainWindow>() as MainWindow;
-        //        if (mainWindow != null)
-        //        {
-        //            mainWindow.MainFrame.Content = page; // MainFrame - x:Name вашего Frame в MainWindow
-        //        }
-        //    }
-        //}
     }
 }

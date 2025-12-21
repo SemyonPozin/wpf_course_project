@@ -120,24 +120,12 @@
                                         <Run Text=" ₽/час"/>
                                     </TextBlock>
 
-                                    <TextBlock>
-                                        <Run Text="★ "/>
-                                        <Run Text="{Binding TutorInfo.Rating}"/>
-                                    </TextBlock>
-
                                     <Button Content="Посмотреть профиль"
                                         Width="180"
                                         Margin="0,10"
                                         Style="{StaticResource AccentButton}"
                                         Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                         CommandParameter="{Binding Id}"/>
-
-                                    <!--<Button Content="Посмотреть профиль"
-                                        Width="180"
-                                        Margin="0,10"
-                                        Style="{StaticResource AccentButton}"
-                                        Click="ViewProfile_Click"
-                                        Tag="{Binding Id}" />-->
 
                                 </StackPanel>
                             </StackPanel>

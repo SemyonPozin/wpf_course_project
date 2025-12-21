@@ -74,6 +74,44 @@ namespace coach_search.ViewModels
             }
         }
 
+        private double _averageRating;
+        public double AverageRating
+        {
+            get => _averageRating;
+            set
+            {
+                _averageRating = value;
+                OnPropertyChanged(nameof(AverageRating));
+                OnPropertyChanged(nameof(RatingStars));
+            }
+        }
+        public async Task CalculateAverageRatingAsync()
+        {
+            var reviews = await ApplicationContext.unitofwork
+                .Reviews
+                .GetReviewsForTutorAsync(Tutor.Id);
+
+            if (reviews == null || reviews.Count == 0)
+            {
+                AverageRating = 0;
+                return;
+            }
+
+            AverageRating = reviews.Average(r => r.Rating);
+        }
+
+
+        public string RatingStars
+        {
+            get
+            {
+                int fullStars = (int)Math.Round(AverageRating, MidpointRounding.AwayFromZero);
+                fullStars = Math.Max(0, Math.Min(5, fullStars));
+
+                return string.Concat(Enumerable.Repeat("★ ", fullStars)).Trim();
+            }
+        }
+
         // Команда создания брони (двойной клик)
         public RelayCommand CreateBookingCommand { get; }
 
@@ -208,7 +246,7 @@ namespace coach_search.ViewModels
         // -----------------------------
         // Загрузка отзывов
         // -----------------------------
-        private async Task LoadReviews()
+        public async Task LoadReviews()
         {
             Reviews.Clear();
             var list = await unitOfWork.Reviews.GetReviewsForTutorAsync(Tutor.Id);
@@ -219,7 +257,7 @@ namespace coach_search.ViewModels
             ReviewsVisibility = Reviews.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private async Task LoadReviewsAsync()
+        public async Task LoadReviewsAsync()
         {
             Reviews.Clear();
             var list = await unitOfWork.Reviews.GetReviewsForTutorAsync(Tutor.Id);

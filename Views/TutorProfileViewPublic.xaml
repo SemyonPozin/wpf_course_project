@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:coach_search.Views" mc:Ignorable="d" 
         d:DesignHeight="600" d:DesignWidth="900"
+        Loaded="Window_Loaded"
         WindowState="Maximized"
         Title="Профиль репетитора"
         WindowStyle="None" ResizeMode="NoResize">
@@ -17,7 +18,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Window.Loaded>Window_Loaded</Window.Loaded>
+    <!--<Window.Loaded>Window_Loaded</Window.Loaded>-->
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#FFF7F2">
         <StackPanel Margin="20" Width="850">
@@ -43,18 +44,33 @@
                         </Ellipse.Fill >
                     </Ellipse >
 
-                    <StackPanel Margin = "20,0" >
-                        <TextBlock Text = "{Binding FullName}" FontSize = "22" FontWeight = "Bold" />
-                        <TextBlock Text = "{Binding Subject}" FontSize = "18" />
-                        <TextBlock >
+                <StackPanel Margin = "20,0" >
+                    <TextBlock Text = "{Binding FullName}" FontSize = "22" FontWeight = "Bold" />
+                    <TextBlock Text = "{Binding Subject}" FontSize = "18" />
+                    <TextBlock >
                     <Run Text = "Цена: " />
                     <Run Text = "{Binding PricePerHour}" />
                     <Run Text = " ₽/час" />
-                        </TextBlock >
-                        <TextBlock Text = "{Binding Phone}" />
-                        <TextBlock Text = "{Binding Email}" />
-                    </StackPanel >
+                    </TextBlock >
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- ЗВЁЗДЫ -->
+                        <TextBlock FontSize="20"
+               Foreground="DarkGoldenrod"
+               Text="{Binding RatingStars}"/>
+
+                        <!-- ЧИСЛО -->
+                        <TextBlock Margin="5,0,0,0"
+               FontSize="14"
+               Foreground="DarkGoldenrod"
+               VerticalAlignment="Center"
+               Text="{Binding AverageRating, StringFormat={}{0:F1}}"/>
+
+                    </StackPanel>
+                    <TextBlock Text = "{Binding Phone}" />
+                    <TextBlock Text = "{Binding Email}" />
                 </StackPanel >
+
+            </StackPanel >
 
                 <!--Описание-->
                     <StackPanel Visibility="{Binding DescriptionVisibility}">
