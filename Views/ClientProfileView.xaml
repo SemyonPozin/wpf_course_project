@@ -73,18 +73,38 @@
                     <ItemsControl ItemsSource="{Binding Reviews}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="0,5" Padding="10" BorderThickness="1" CornerRadius="8"
-    BorderBrush="LightGray">
+                                <Border Margin="0,5"
+                    Padding="10"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    BorderBrush="LightGray">
+
                                     <StackPanel>
-                                        <TextBlock Text="{Binding ClientName}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
-                                        <TextBlock Text="{Binding Rating, StringFormat=Оценка: {0}}"
-               Foreground="DarkGoldenrod"/>
+
+                                        <!-- КОМУ ОТПРАВЛЕН -->
+                                        <TextBlock FontWeight="Bold">
+                        <Run Text="Репетитор: "/>
+                        <Run Text="{Binding Tutor.FullName}"/>
+                                        </TextBlock>
+
+                                        <!-- ТЕКСТ -->
+                                        <TextBlock Text="{Binding Text}"
+                               Margin="0,5"
+                               TextWrapping="Wrap"/>
+
+                                        <!-- РЕЙТИНГ -->
+                                        <TextBlock Foreground="DarkGoldenrod">
+                        <Run Text="Оценка: "/>
+                        <Run Text="{Binding Rating}"/>
+                        <Run Text=" / 5"/>
+                                        </TextBlock>
+
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
                 </StackPanel>
 
 

@@ -119,9 +119,17 @@ namespace coach_search.DB
                 .ToListAsync();
         }
 
+        //public async Task<List<Review>> GetReviewsByUserIdAsync(int authorId)
+        //{
+        //    return await _dbSet.Where(r => r.AuthorId == authorId).ToListAsync() ?? new List<Review>();   
+        //}
+
         public async Task<List<Review>> GetReviewsByUserIdAsync(int authorId)
         {
-            return await _dbSet.Where(r => r.AuthorId == authorId).ToListAsync() ?? new List<Review>();   
+            return await _dbSet
+                .Include(r => r.Tutor)
+                .Where(r => r.AuthorId == authorId)
+                .ToListAsync();
         }
 
         public async Task<List<Review>> GetAllReviewsWithIncludesAsync()
