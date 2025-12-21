@@ -37,36 +37,60 @@
 
     <DockPanel>
 
-        <!-- Верхнее меню -->
-        <Border Background="#E6C4A8" DockPanel.Dock="Top" Height="60">
-            <StackPanel Orientation="Horizontal"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Margin="0,0,20,0">
+        <Border Background="#E6C4A8"
+        DockPanel.Dock="Top"
+        Height="60"
+        Padding="20,0">
 
-                <Button Content="Главная"
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ЛОГОТИП -->
+                <TextBlock Text="TutorFinder"
+                   VerticalAlignment="Center"
+                   FontSize="26"
+                   FontWeight="Bold"
+                   FontFamily="Segoe UI"
+                   Foreground="#5A3E2B"
+                   Grid.Column="0">
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="6"
+                                  ShadowDepth="1"
+                                  Color="#000000"
+                                  Opacity="0.25"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <!-- КНОПКИ -->
+                <StackPanel Orientation="Horizontal"
+                    Grid.Column="2"
+                    VerticalAlignment="Center">
+
+                    <Button Content="Главная"
                     Command="{Binding NavigateHomeCommand}"
                     Style="{StaticResource MenuButton}" />
 
-                <!-- Личный кабинет для всех, кроме админа -->
-                <Button Content="Личный кабинет"
+                    <Button Content="Личный кабинет"
                     Command="{Binding NavigateProfileCommand}"
                     Visibility="{Binding ProfileButtonVisibility}"
                     Style="{StaticResource MenuButton}" />
 
-                <!-- Админ панель для админа -->
-                <Button Content="Админ"
+                    <Button Content="Админ"
                     Command="{Binding NavigateAdminCommand}"
                     Visibility="{Binding AdminButtonVisibility}"
                     Style="{StaticResource MenuButton}" />
 
-                <!-- Кнопка выхода всегда -->
-                <Button Content="Выход"
+                    <Button Content="Выход"
                     Command="{Binding LogoutCommand}"
                     Style="{StaticResource MenuButton}" />
-
-            </StackPanel>
+                </StackPanel>
+            </Grid>
         </Border>
+
 
         <!-- Область для отображения страниц -->
         <Frame x:Name="MainFrame" Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden" />
