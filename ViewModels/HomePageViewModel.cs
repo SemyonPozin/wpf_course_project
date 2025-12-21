@@ -63,12 +63,12 @@ namespace coach_search.ViewModels
 
         private async Task LoadTutorsAsync()
         {
-            var allTutors = await _unitOfWork.Users.GetTutorsAsync();
-            // Фильтруем репетиторов: только те, у которых указан предмет и цена за час
+            var allTutors = await new UnitOfWork(new DB.Context()).Users.GetTutorsAsync();
             _allTutors = allTutors.Where(t => 
                 t.TutorInfo != null && 
                 !string.IsNullOrWhiteSpace(t.TutorInfo.Subject) && 
-                t.TutorInfo.PricePerHour > 0
+                t.TutorInfo.PricePerHour > 0 && 
+                t.IsBlocked == false
             ).ToList();
             FilteredTutors = new ObservableCollection<User>(_allTutors);
             OnPropertyChanged(nameof(FilteredTutors));

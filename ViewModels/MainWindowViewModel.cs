@@ -56,6 +56,7 @@ namespace coach_search.ViewModels
         private void Logout()
         {
             ApplicationContext.CurrentUser = null;
+            ApplicationContext.CurrentTutorId = null;
             var log = new LoginRegisterWindow();
             log.Show();
             Application.Current.Windows.OfType<MainWindow>().FirstOrDefault()?.Close();

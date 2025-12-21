@@ -98,8 +98,6 @@
 
                             <StackPanel Orientation="Horizontal">
 
-                                <!--<Ellipse Width="70" Height="70" Fill="#E6C4A8"/>-->
-
                                 <!-- Внутренний круг с фотографией -->
                                 <Ellipse Width="70" Height="70" Margin="0 -40 0 0">
                                     <Ellipse.Fill>

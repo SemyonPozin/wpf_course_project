@@ -82,11 +82,8 @@ public class LoginRegisterViewModel : INotifyPropertyChanged
         }
 
         ApplicationContext.CurrentUser = user;
-        //if (user.Role == 1)
-        //    ApplicationContext.CurrentTutorId = user.Id;
-        //else ApplicationContext.CurrentTutorId = null;
 
-            MessageBox.Show($"Добро пожаловать, {user.FullName}!",
+        MessageBox.Show($"Добро пожаловать, {user.FullName}!",
                 "Успешный вход", MessageBoxButton.OK, MessageBoxImage.Information);
 
         // Открытие главного окна
@@ -154,11 +151,6 @@ public class LoginRegisterViewModel : INotifyPropertyChanged
                 "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
-
-        //using var db = new Context();
-        //if (db.Users.Any(x => x.Email == RegEmail))
-       
-        //bool 
 
         if (await unitOfWork.Users.GetByEmailAsync(RegEmail) != null)
         {

@@ -142,14 +142,20 @@ namespace coach_search.ViewModels
                 return;
             }
 
-
-            // Full name
-            if (string.IsNullOrWhiteSpace(FullName) || FullName.Length < 5)
+            if (await unitOfWork.Users.GetByEmailAsync(Email) != null && ApplicationContext.CurrentUser.Email != Email)
             {
-                MessageBox.Show("Введите корректное ФИО (минимум 5 символов).",
+                MessageBox.Show("Этот email уже зарегистрирован.",
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            if (string.IsNullOrWhiteSpace(FullName) || FullName.Length < 5 || FullName.Length > 50)
+            {
+                MessageBox.Show("Введите корректное ФИО (минимум 5 и максимум 50 символов).",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
 
             // Phone
             if (string.IsNullOrWhiteSpace(Phone) ||

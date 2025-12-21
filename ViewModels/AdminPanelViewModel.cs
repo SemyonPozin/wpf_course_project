@@ -4,6 +4,7 @@ using coach_search.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -150,6 +151,27 @@ namespace coach_search.ViewModels
             }
         }
 
+        private async void EditTutor(object obj)
+        {
+            if (obj is User tutor)
+            {
+                if (tutor.TutorInfo == null)
+                    tutor.TutorInfo = await unitOfWork.Tutors.GetByUserIdAsync(tutor.Id);
+
+                var editWindow = new AdminEditTutorWindow(tutor); // передаем оригинальный объект
+                if (editWindow.ShowDialog() == true)
+                {
+                    // Сохраняем изменения в БД
+                    if (tutor.TutorInfo != null)
+                        await unitOfWork.Tutors.UpdateAsync(tutor.TutorInfo);
+                    await unitOfWork.Users.UpdateAsync(tutor);
+                    await unitOfWork.SaveAsync();
+
+                    _ = LoadDataAsync(); 
+                }
+            }
+        }
+
         private async Task BlockUserAsync(object obj)
         {
             if (obj is User user)
@@ -174,65 +196,6 @@ namespace coach_search.ViewModels
                 {
                     user.IsBlocked = false;
                     await unitOfWork.Users.UpdateAsync(user);
-                    await unitOfWork.SaveAsync();
-                    _ = LoadDataAsync();
-                }
-            }
-        }
-
-        private async void EditTutor(object obj)
-        {
-            if (obj is User tutor)
-            {
-                // Загружаем TutorInfo если еще не загружен
-                if (tutor.TutorInfo == null)
-                {
-                    tutor.TutorInfo = await unitOfWork.Tutors.GetByUserIdAsync(tutor.Id);
-                }
-
-                // Создаем копию для редактирования
-                var tutorCopy = new User
-                {
-                    Id = tutor.Id,
-                    FullName = tutor.FullName,
-                    Email = tutor.Email,
-                    Phone = tutor.Phone,
-                    IsBlocked = tutor.IsBlocked,
-                    PhotoPath = tutor.PhotoPath,
-                    Role = tutor.Role,
-                    TutorInfo = tutor.TutorInfo != null ? new TutorInfo
-                    {
-                        Id = tutor.TutorInfo.Id,
-                        UserId = tutor.TutorInfo.UserId,
-                        Description = tutor.TutorInfo.Description ?? string.Empty,
-                        Subject = tutor.TutorInfo.Subject ?? string.Empty,
-                        PricePerHour = tutor.TutorInfo.PricePerHour
-                    } : new TutorInfo { UserId = tutor.Id, Description = string.Empty, Subject = string.Empty }
-                };
-
-                var editWindow = new AdminEditTutorWindow(tutorCopy);
-                if (editWindow.ShowDialog() == true)
-                {
-                    // Обновляем оригинальный объект
-                    tutor.FullName = tutorCopy.FullName;
-                    tutor.Email = tutorCopy.Email;
-                    tutor.Phone = tutorCopy.Phone;
-                    tutor.IsBlocked = tutorCopy.IsBlocked;
-                    
-                    if (tutor.TutorInfo == null)
-                    {
-                        tutor.TutorInfo = await unitOfWork.Tutors.GetByUserIdAsync(tutor.Id);
-                    }
-                    
-                    if (tutor.TutorInfo != null && tutorCopy.TutorInfo != null)
-                    {
-                        tutor.TutorInfo.Description = tutorCopy.TutorInfo.Description;
-                        tutor.TutorInfo.Subject = tutorCopy.TutorInfo.Subject;
-                        tutor.TutorInfo.PricePerHour = tutorCopy.TutorInfo.PricePerHour;
-                        await unitOfWork.Tutors.UpdateAsync(tutor.TutorInfo);
-                    }
-                    
-                    await unitOfWork.Users.UpdateAsync(tutor);
                     await unitOfWork.SaveAsync();
                     _ = LoadDataAsync();
                 }
