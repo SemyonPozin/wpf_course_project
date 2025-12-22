@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:coach_search.ViewModels"
         mc:Ignorable="d"
         Title="Комментарий к бронированию" Height="300" Width="500"
-        WindowStyle="None" ResizeMode="NoResize">
+        ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

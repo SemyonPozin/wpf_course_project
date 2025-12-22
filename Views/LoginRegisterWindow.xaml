@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="TutorFinder — Вход / Регистрация"
-        Height="500" Width="700"
-        Background="#FFF7F2">
+        Height="700" Width="700"
+        Background="#FFF7F2"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <ResourceDictionary>
