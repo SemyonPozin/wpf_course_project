@@ -97,7 +97,7 @@ namespace coach_search.ViewModels
 
 
             if (string.IsNullOrWhiteSpace(Phone) ||
-                !Regex.IsMatch(Phone, @"^\+375(29|33|44)\d{7}$"))
+                !Regex.IsMatch(Phone, @"^\+375(29|33|44|25)\d{7}$"))
             {
                 MessageBox.Show("Введите корректный номер телефона.",
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);

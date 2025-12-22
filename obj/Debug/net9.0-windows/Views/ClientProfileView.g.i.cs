@@ -53,7 +53,7 @@ namespace coach_search.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/coach_search;V1.0.0.0;component/views/clientprofileview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/coach_search;component/views/clientprofileview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\ClientProfileView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

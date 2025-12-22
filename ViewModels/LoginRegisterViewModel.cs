@@ -122,7 +122,7 @@ public class LoginRegisterViewModel : INotifyPropertyChanged
 
         // Phone
         if (string.IsNullOrWhiteSpace(RegPhone) ||
-            !Regex.IsMatch(RegPhone, @"^\+375(29|33|44)\d{7}$"))
+            !Regex.IsMatch(RegPhone, @"^\+375(29|33|44|25)\d{7}$"))
         {
             MessageBox.Show("Введите корректный номер телефона.",
                 "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
